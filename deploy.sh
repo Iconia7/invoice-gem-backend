@@ -29,8 +29,8 @@ python manage.py migrate
 echo "🎨 Collecting static files..."
 python manage.py collectstatic --no-input
 
-# Restart Gunicorn (assuming you're using systemd)
+# Restart Gunicorn (using the specific service we'll create)
 echo "🔄 Restarting Gunicorn service..."
-sudo systemctl restart gunicorn
+sudo systemctl restart gunicorn_invoice
 
 echo "✅ Deployment Successful!"
