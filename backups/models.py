@@ -3,7 +3,7 @@ from licenses.models import ProLicense
 
 class DeviceBackup(models.Model):
     license = models.ForeignKey(ProLicense, on_delete=models.CASCADE, related_name='backups')
-    backup_data = models.JSONField(help_text="Full export of the Flutter SQLite database as JSON")
+    backup_data = models.JSONField(default=dict, help_text="Full export of the Flutter SQLite database as JSON")
     created_at = models.DateTimeField(auto_now_add=True)
     description = models.CharField(max_length=255, blank=True, null=True)
 
