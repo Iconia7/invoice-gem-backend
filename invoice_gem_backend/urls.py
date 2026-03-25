@@ -16,8 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import JsonResponse
+
+def api_root(request):
+    return JsonResponse({"status": "Invoice Gem API is Live 🚀", "version": "1.0.0"})
 
 urlpatterns = [
+    path('api/', api_root),
     path('admin/', admin.site.urls),
     path('api/licenses/', include('licenses.urls')),
     path('api/backups/', include('backups.urls')),
