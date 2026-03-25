@@ -124,6 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # CORS Settings
 CORS_ALLOW_ALL_ORIGINS = True  # For dev; restrict to your VPS IP/Domain in prod

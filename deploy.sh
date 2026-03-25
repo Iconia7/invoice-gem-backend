@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Configuration
-PROJECT_DIR="/path/to/your/backend/folder"
+# Auto-detect directory where the script is located
+PROJECT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 VENV_DIR="$PROJECT_DIR/venv"
 
 echo "🚀 Starting Deployment..."
