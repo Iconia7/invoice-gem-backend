@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='devicebackup',
             name='created_at',
-            field=models.DateTimeField(auto_now_add=True, default={}),
+            field=models.DateTimeField(auto_now_add=True, default='2024-01-01T00:00:00'),
             preserve_default=False,
         ),
         migrations.AddField(
