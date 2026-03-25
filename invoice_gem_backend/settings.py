@@ -45,7 +45,12 @@ INSTALLED_APPS = [
     # Internal apps
     'licenses',
     'backups',
+    'accounts',
 ]
+
+# Email Settings
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # For development
+DEFAULT_FROM_EMAIL = 'no-reply@invoicegem.com'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

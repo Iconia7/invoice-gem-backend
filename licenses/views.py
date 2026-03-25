@@ -97,6 +97,7 @@ class InitializePaymentView(APIView):
     def post(self, request):
         email = request.data.get('email')
         amount = request.data.get('amount') # in cents/kobo
+        currency = request.data.get('currency', 'KES')
 
         if not email or not amount:
             return Response({'error': 'email and amount are required'}, status=status.HTTP_400_BAD_REQUEST)
@@ -109,6 +110,7 @@ class InitializePaymentView(APIView):
         payload = {
             "email": email,
             "amount": amount,
+            "currency": currency,
         }
 
         try:
