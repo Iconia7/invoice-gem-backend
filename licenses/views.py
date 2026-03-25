@@ -90,3 +90,33 @@ class CheckLicenseStatusView(APIView):
             return Response({'is_pro': True, 'device_id': device_id}, status=status.HTTP_200_OK)
         except ProLicense.DoesNotExist:
             return Response({'is_pro': False}, status=status.HTTP_401_UNAUTHORIZED)
+
+class InitializePaymentView(APIView):
+    permission_classes = [] 
+
+    def post(self, request):
+        email = request.data.get('email')
+        amount = request.data.get('amount') # in cents/kobo
+
+        if not email or not amount:
+            return Response({'error': 'email and amount are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        url = "https://api.paystack.co/transaction/initialize"
+        headers = {
+            "Authorization": f"Bearer {settings.PAYSTACK_SECRET_KEY}",
+            "Content-Type": "application/json",
+        }
+        payload = {
+            "email": email,
+            "amount": amount,
+        }
+
+        try:
+            response = requests.post(url, headers=headers, json=payload, timeout=10)
+            data = response.json()
+            if data.get('status'):
+                return Response(data['data'], status=status.HTTP_200_OK)
+            else:
+                return Response({'error': data.get('message')}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
