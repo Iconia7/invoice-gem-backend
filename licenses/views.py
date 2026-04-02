@@ -1,4 +1,5 @@
 import requests
+import africastalking
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -6,15 +7,20 @@ from django.conf import settings
 from .models import ProLicense
 from .utils import generate_pro_token
 
+# Initialize Africa's Talking
+africastalking.initialize(settings.AFRICASTALKING_USERNAME, settings.AFRICASTALKING_API_KEY)
+sms_service = africastalking.SMS
+
 class VerifyPaymentView(APIView):
     permission_classes = [] # Allow unauthenticated POST for verification
 
     def post(self, request):
         device_id = request.data.get('device_id')
         reference = request.data.get('reference')
+        phone = request.data.get('phone')
 
         if not device_id or not reference:
-            return Response({'error': 'device_id and reference are required'}, status=status.HTTP_400_BAD_MODULE)
+            return Response({'error': 'device_id and reference are required'}, status=status.HTTP_400_BAD_REQUEST)
 
         # Check if reference already used
         if ProLicense.objects.filter(paystack_reference=reference).exists():
@@ -59,6 +65,16 @@ class VerifyPaymentView(APIView):
                     'amount_paid': amount_paid,
                 }
             )
+
+            # Send Congratulatory SMS if phone is provided
+            if phone:
+                try:
+                    message = "Congratulations! Your Invoice Gem Pro Lifetime access has been activated successfully. Thank you for choosing Invoice Gem!"
+                    sender = settings.AFRICASTALKING_SENDER_ID or None
+                    sms_service.send(message, [phone], sender_id=sender)
+                except Exception as sms_err:
+                    # Don't fail the verification if SMS fails
+                    print(f"SMS Error: {sms_err}")
             
             return Response({
                 'status': 'success',
