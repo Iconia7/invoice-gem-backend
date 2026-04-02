@@ -155,6 +155,11 @@ PAYSTACK_SECRET_KEY = config('PAYSTACK_SECRET_KEY')
 PRO_PRICE_KSH_CENTS = config('PRO_PRICE_KSH_CENTS', cast=int)
 PRO_PRICE_USD_CENTS = config('PRO_PRICE_USD_CENTS', cast=int)
 
+# Africa's Talking Settings
+AFRICASTALKING_USERNAME = config('AFRICASTALKING_USERNAME', default='sandbox')
+AFRICASTALKING_API_KEY = config('AFRICASTALKING_API_KEY', default='')
+AFRICASTALKING_SENDER_ID = config('AFRICASTALKING_SENDER_ID', default='')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
