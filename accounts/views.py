@@ -26,7 +26,7 @@ class SendOTPView(APIView):
 
         if method == 'sms' and phone:
             # Send SMS via Africa's Talking
-            message = f'Your Invoice Gem verification code is: {otp_obj.code}. Expires in 10 mins.'
+            message = f'Your Invoice Gem One Time Password (OTP) verification code is: {otp_obj.code}. Expires in 10 mins.'
             sender = settings.AFRICASTALKING_SENDER_ID or None
             
             try:
